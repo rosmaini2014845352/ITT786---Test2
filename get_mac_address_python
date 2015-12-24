@@ -15,7 +15,11 @@ print "****************************************************"
 #**********************************************************
 
 # Question 2 - get IPv6
-
+def get_ip_6(host, port=0):
+    import socket
+    
+    result = socket.getaddrinfo(host, port, socket.AF_INET6)
+    return result
 
 
 # Question 3 - have a Threads features
