@@ -1,0 +1,55 @@
+# ITT786---Test2
+#@author: Rosmaini Dollah (2014845352)
+# Question 1 - get hardware MAC Address
+# Question 2 - get IPv6
+# Question 3 - have a Threads features
+#*********************************************************
+    
+import uuid
+print ':'.join(['{:02x}'.format((uuid.getnode() >> i) & 0xff) for i in range(0,8*6,8)][::-1])
+print "****************************************************"
+
+#output:
+#sh-4.3$ python main.py                                                                                                                                                          
+#MAC Address Company A 02:42:ac:11:2e:10  
+#**********************************************************
+
+# Question 2 - get IPv6
+
+
+
+# Question 3 - have a Threads features
+#**********************************************************
+import threading
+import time
+
+exitFlag = 0
+
+class myThread (threading.Thread):
+    def __init__(self, threadID, name, counter):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.counter = counter
+    def run(self):
+        print "Starting " + self.name
+        print_time(self.name, self.counter, 5)
+        print "Exiting " + self.name
+
+def print_time(threadName, delay, counter):
+    while counter:
+        if exitFlag:
+            threadName.exit()
+        time.sleep(delay)
+        print "%s: %s" % (threadName, time.ctime(time.time()))
+        counter -= 1
+
+# Create new threads
+thread1 = myThread(1, "Thread-1", 1)
+thread2 = myThread(2, "Thread-2", 2)
+
+# Start new Threads
+thread1.start()
+thread2.start()
+
+print "Exiting Main Thread"
